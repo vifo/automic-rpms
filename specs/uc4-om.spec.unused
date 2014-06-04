@@ -1,0 +1,33 @@
+# ----------------------------------------------------------------------------
+# RPM spec file for the UC4 Operations Manager.
+#
+# Refer to https://github.com/vifo/automic-rpms for details/docs.
+# ----------------------------------------------------------------------------
+# DISCLAIMER
+#
+# Automic Software Inc. did neither develop, approve nor release any part of
+# this software. I am not in any way affiliated with Automic Software Inc.,
+# but merely a simple customer.
+#
+# Further, I am not responsible for any damage done by using this software or
+# you getting fired because you blew up your data center. If you have any
+# concerns about this software, it is YOUR responsibility to do further
+# research, ask questions the smart way (http://goo.gl/Rims), patch and/or
+# doing it manually.
+#
+# USE AT YOUR OWN RISK. YOU HAVE BEEN WARNED.
+# ----------------------------------------------------------------------------
+
+%include uc4-om-defines.inc
+
+Summary:            UC4 Operations Manager
+Prefix:             %{__base_install_prefix}
+Name:               %{__base_package_name}
+Version:            %{__package_utility_version_major}.%{__package_utility_version_minor}
+Release:            %{__package_utility_version_release}%{?dist}
+
+%description
+This package contains the UC4 Operations Manager.
+
+%clean
+rm -rf %{buildroot}

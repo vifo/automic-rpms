@@ -1,14 +1,7 @@
 # ----------------------------------------------------------------------------
 # RPM spec file for the Automic Automation Engine.
 #
-# Please note, that "UC4 Software Inc." has been rebranded in 2013 to "Automic
-# Software Inc.", while "Operations Manager" has been renamed to "Automation
-# Engine". This has been reflected by two separate .spec files, depending on
-# version, i.e.:
-#
-#     uc4-om.spec                   # for <= V8
-#     automic-ae.spec               # for >= V9
-#
+# Refer to https://github.com/vifo/automic-rpms for details/docs.
 # ----------------------------------------------------------------------------
 # DISCLAIMER
 #
@@ -45,3 +38,6 @@ lorem ipsum
 
 %prep
 %setup -T -c
+
+%clean
+rm -rf %{buildroot}
