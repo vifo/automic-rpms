@@ -1,20 +1,20 @@
 #!/bin/sh
 #
-# %{name}       UC4 Operations Manager UNIX Agent for Linux.
+# %{name}       UC4 Operations Manager Service Manager for Linux.
 #
 # chkconfig:    2345 80 20
 # description:  UC4 Operations Manager is an enterprise automation platform.
-#               This script control the UNIX Agent component.
+#               This script control the Service Manager component.
 
 # Source function library.
 . /etc/rc.d/init.d/functions
 
 prefix="%{prefix}"
 prog="%{name}"
-exec="${prefix}/bin/UCXJLX6"
+exec="${prefix}/bin/ucybsmgr"
 lockfile="/var/lock/subsys/${prog}"
 pidfile="/var/run/${prog}.pid"
-config="${prefix}/bin/UCXJLX6.ini"
+config="${prefix}/bin/ucybsmgr.ini"
 
 # Source sysconfig for this daemon.
 [ -e "/etc/sysconfig/$prog" ] && . "/etc/sysconfig/$prog"

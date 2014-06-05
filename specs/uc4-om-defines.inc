@@ -39,7 +39,7 @@
 %define __package_agent_unix_source_filename            Operations.Manager_Agent_Unix_Linux_8_9_0+build.2.zip
 
 %define __package_agent_sap_version_major               8
-%define __package_agent_sap_version_minor               407.791
+%define __package_agent_sap_version_minor               408.092
 %define __package_agent_sap_version_release             1
 %define __package_agent_sap_source_filename             Operations.Manager_Agent_SAP_8_9_0+build.15.zip
 %define __package_agent_sap_component_name              ucxjr3x
@@ -49,6 +49,12 @@
 %define __package_utility_version_release               1
 %define __package_utility_source_filename               Operations.Manager_Utility_Linux_8_9_0+build.15.zip
 %define __package_utility_component_name                utillx6
+
+%define __package_service_manager_version_major         8
+%define __package_service_manager_version_minor         227.061
+%define __package_service_manager_version_release       1
+%define __package_service_manager_source_filename       UC4.Operations.Manager_ServiceManager_8.00A_6_0.zip
+%define __package_service_manager_component_name        ucsmgrlx6
 
 # Macros. Skip them till "END_OF_MACROS". Do not miss any important settings
 # below "END_OF_MACROS".
@@ -67,27 +73,48 @@
     tar -xzf "%2.tar.gz"; \
     rm "%2.tar.gz"; \
 
+%define __convert_newlines_to_lf() \
+    perl -i -pe 's/\\r$//' %**; \
+
 %define __fix_file_permissions() \
     # Attempt to set sensible default file permissions based on file \
     # extension. \
     chmod -R u=rwX,g=rX,o=rX "%1"; \
     find "%1" -type f -a \\( \\\
-                -name '*.sh' \\\
-                -name '*.so' \\\
-        \\) -print0 | xargs -0 --no-run-if-empty chmod 755; \
+        -name '*.sh' \\\
+        -name '*.so' \\\
+    \\) -print0 | xargs -0 --no-run-if-empty chmod 755; \
     find "%1" -type f -a \\( \\\
-               -name '*.ini' \\\
-            -o -name '*.msl' \\\
-            -o -name '*.jar' \\\
-        \\) -print0 | xargs -0 --no-run-if-empty chmod 644; \
+           -name '*.ini' \\\
+        -o -name '*.msl' \\\
+        -o -name '*.smd' \\\
+        -o -name '*.jar' \\\
+    \\) -print0 | xargs -0 --no-run-if-empty chmod 644; \
 
-%define __fix_ini_files() \
-    # Replace variables in given INI files. \
-    perl -i -p \\\
-        -e "s!(\\=\\s*)\\./\\$!\\${1}%{prefix}/bin/!;" \\\
-        -e "s!(\\=\\s*)\\../(temp|out)/!\\${1}%{prefix}/\\${2}/!;" \\\
-        -e "s!(helplib\\s*\\=\\s*)(.*)!\\${1}%{prefix}/bin/\\${2}!;" \\\
-        %**; \
+%define __expand_paths_in_ini_files() \
+    # Expand paths in INI files. \
+    perl -i -p -e " \\\
+        BEGIN { \\$basedir = '%1'; shift @ARGV; }; \\\
+        s{ \\\
+            ^\\s*(output|docu_path|logging|file|deffile|cmdfile|helplib)\\s*\\=\\s*(.*?)\\s*\\$ \\\
+        }{ \\\
+            \\$key = \\$1; \\\
+            \\$value = \\$2; \\\
+            @result = split /\\//, \\$basedir; \\\
+            @path = split /\\//, \\$value; \\\
+            while (defined(\\$path_elem = shift @path)) { \\\
+                unless (\\$path_elem =~ m/^\\./) { \\\
+                    push @result, \\$path_elem; \\\
+                    push @result, @path; \\\
+                    last; \\\
+                } \\\
+                if (\\$path_elem eq '..') { \\\
+                    pop @result; \\\
+                } \\\
+            }; \\\
+            sprintf \\"%s = %s\\n\\", \\$key, join('/', @result); \\\
+        }xei;" \\\
+    %**; \
 
 # END_OF_MACROS
 

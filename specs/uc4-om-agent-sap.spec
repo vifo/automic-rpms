@@ -39,7 +39,8 @@ Inc. This package contains the UC4 Operations Manager SAP Agent for Linux
 %install
 rm -rf %{buildroot}
 %__copy_files_from_build_to_buildroot_prefix
-%__fix_ini_files %{buildroot}%{prefix}/bin/*.ori.ini
+%__expand_paths_in_ini_files %{prefix}/bin %{buildroot}%{prefix}/bin/*.ori.ini
+%__convert_newlines_to_lf %{buildroot}%{prefix}/bin/*.ori.ini
 
 %files
 %defattr(-,root,root,-)

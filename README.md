@@ -14,9 +14,10 @@ Further, I am not responsible for any damage done by using this software or you 
 
 Operations Manager/Automation Engine components have to be installed more or less manually from .tar.gz archives. Automic Software Inc. does not (yet) provide packaged downloads. This repository provides RPM spec files for the following components (not all are packaged yet, more to come):
 
-* UC4 Operations Manager SAP Agent for Linux
-* UC4 Operations Manager UNIX Agent for Linux
-* UC4 Operations Manager utilities
+* UC4 Operations Manager SAP Agent
+* UC4 Operations Manager Service Manager
+* UC4 Operations Manager UNIX Agent
+* UC4 Operations Manager Utilities
 
 ## Usage
 
@@ -29,12 +30,12 @@ Operations Manager/Automation Engine components have to be installed more or les
 
 ## Limitations
 
+* Currently, only V8 builds are supported.
 * Batteries not included. Since Automic requires a registration prior to downloading ZIPs, the latter are not included. You have to download them yourself.
-* Currently, only V8/V9 builds are supported.
-* The spec files are targeted for Red Hat Enterprise Linux. Other distributions *may* work, but have not been tested.
+* The spec files are targeted for Red Hat Enterprise Linux (and binary compatible). Other distributions *may* work, but have not been tested.
 * The only architecture supported is `x86_64` (specified via `ExclusiveArch` in spec files). Trying to build for other architectures will (intentionally) fail. For now, it is unlikely at best that other architectures will be supported in the future. Contributions are of course welcome.
 
 [ask_questions_the_smart_way]: http://goo.gl/Rims
 [automic_com]: http://www.automic.com/
-[automic_downloads]: https://automationpassion.com/
+[automic_downloads]: http://downloads.automic.com/
 [rpmbuild_docs]: http://www.rpm.org/max-rpm-snapshot/rpmbuild.8.html

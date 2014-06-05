@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# RPM spec file for the UC4 Operations Manager utilities.
+# RPM spec file for the UC4 Operations Manager Utilities.
 #
 # Refer to https://github.com/vifo/automic-rpms for details/docs.
 # ----------------------------------------------------------------------------
@@ -20,7 +20,7 @@
 
 %include uc4-om-defines.inc
 
-Summary:            UC4 Operations Manager utilities
+Summary:            UC4 Operations Manager Utilities
 Prefix:             %{__base_install_prefix}/utility
 Name:               %{__base_package_name}-utility
 Version:            %{__package_utility_version_major}.%{__package_utility_version_minor}
@@ -31,7 +31,7 @@ Requires:           java >= 1.6
 
 %description
 UC4 Operations Manager is an enterprise automation platform by UC4 Software
-Inc. This package contains the UC4 Operations Manager utilities for Linux
+Inc. This package contains the UC4 Operations Manager Utilities for Linux
 (UTILLX6).
 
 %prep
@@ -41,7 +41,8 @@ Inc. This package contains the UC4 Operations Manager utilities for Linux
 %install
 rm -rf %{buildroot}
 %__copy_files_from_build_to_buildroot_prefix
-%__fix_ini_files %{buildroot}%{prefix}/bin/*.ori.ini
+%__expand_paths_in_ini_files %{prefix}/bin %{buildroot}%{prefix}/bin/*.ori.ini
+%__convert_newlines_to_lf %{buildroot}%{prefix}/bin/*.ori.ini
 
 %files
 %defattr(-,root,root,-)

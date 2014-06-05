@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# RPM spec file for the UC4 Operations Manager UNIX Agent for Linux.
+# RPM spec file for the UC4 Operations Manager Service Manager.
 #
 # Refer to https://github.com/vifo/automic-rpms for details/docs.
 # ----------------------------------------------------------------------------
@@ -17,40 +17,33 @@
 #
 # USE AT YOUR OWN RISK. YOU HAVE BEEN WARNED.
 # ----------------------------------------------------------------------------
-# FIXME: After removal of package, the following dir structure is left over:
-#
-#   /opt/uc4/
-#   /opt/uc4/agents
-#
-# /opt/uc4 must not exist at all after removal. Any ideas?
-# ----------------------------------------------------------------------------
 
 %include uc4-om-defines.inc
 
-Summary:            UC4 Operations Manager UNIX Agent for Linux
-Prefix:             %{__base_install_prefix}/agents/unix
-Name:               %{__base_package_name}-agent-unix
-Version:            %{__package_agent_unix_version_major}.%{__package_agent_unix_version_minor}
-Release:            %{__package_agent_unix_version_release}%{?dist}
+Summary:            UC4 Operations Manager Service Manager
+Prefix:             %{__base_install_prefix}/smgr
+Name:               %{__base_package_name}-service-manager
+Version:            %{__package_service_manager_version_major}.%{__package_service_manager_version_minor}
+Release:            %{__package_service_manager_version_release}%{?dist}
 Requires(post):     chkconfig
 Requires(preun):    chkconfig
 Requires(postun):   initscripts
-Source0:            %{__package_agent_unix_source_filename}
+Source0:            %{__package_service_manager_source_filename}
 Source1:            %{name}.init.d.sh
 
 %description
 UC4 Operations Manager is an enterprise automation platform by UC4 Software
-Inc. This package contains the UC4 Operations Manager UNIX Agent for Linux
-(UCXJLX6).
+Inc. This package contains the UC4 Operations Manager Service Manager for
+Linux (UCSMGRLX6).
 
 %prep
 %setup -T -c
-%__extract_component %{SOURCE0} %{__package_agent_unix_component_name}
+%__extract_component %{SOURCE0} %{__package_service_manager_component_name}
 
 %install
 rm -rf %{buildroot}
 %__copy_files_from_build_to_buildroot_prefix
-%__expand_paths_in_ini_files %{prefix}/bin %{buildroot}%{prefix}/bin/*.ori.ini
+%__expand_paths_in_ini_files %{prefix}/bin %{buildroot}%{prefix}/bin/*.ori.{ini,smd}
 
 # Install initscript and replace variables in init script.
 mkdir -p %{buildroot}%{_initrddir}
@@ -60,18 +53,20 @@ perl -i -p \
     -e "s!\%\{name\}!%{name}!" \
     %{buildroot}%{_initrddir}/%{name}
 
-pushd %{buildroot}%{prefix}/bin
-cp ucxjxxx.ori.ini UCXJLX6.ori.ini
-cp ucxjxxx.ori.ini UCXJLX6M.ori.ini
-rm ucxjxxx.ori.ini
-popd
+%__convert_newlines_to_lf %{buildroot}%{prefix}/bin/*.ori.{ini,smd}
 
-%__convert_newlines_to_lf %{buildroot}%{prefix}/bin/*.ori.ini
+# Create default configuration files.
+pushd %{buildroot}%{prefix}/bin
+cp ucybsmgr.ori.ini ucybsmgr.ini
+cp uc4.ori.smd uc4.smd
+popd
 
 %files
 %defattr(-,root,root,-)
 %{_initrddir}/%{name}
 %{prefix}
+%config %{prefix}/bin/ucybsmgr.ini
+%config %{prefix}/bin/uc4.smd
 
 %post
 # TODO: Check, if we're upgrading or performing a new installation. On
