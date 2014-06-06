@@ -1,6 +1,6 @@
 # automic-rpms
 
-This repository contains RPM spec files and helpers for the [Automic Software Inc.][automic_com] [Automation Engine][http://automic.com/product] formerly known as UC4 Operations Manager).
+This repository contains RPM spec files and helpers for the [Automic Software Inc.][automic_com] [Automation Engine][automic_automation_engine] (formerly known as UC4 Operations Manager and rebranded in 2013).
 
 ## Disclaimer
 
