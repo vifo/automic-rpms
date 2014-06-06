@@ -36,10 +36,10 @@
 # Further, i am not responsible for any damage done by using this software or
 # you getting fired because you blew up your data center. If you have any
 # concerns about this software, it is YOUR responsibility to do further
-# research, ask questions the smart way (http://goo.gl/Rims), patch and/or
-# doing it manually.
+# research, ask questions the smart way (http://goo.gl/Rims), patch and/or do
+# it manually on your own.
 #
-# USE AT YOUR OWN RISK, YOU HAVE BEEN WARNED.
+# USE AT YOUR OWN RISK. YOU HAVE BEEN WARNED.
 # ----------------------------------------------------------------------------
 
 # TODO: getopts

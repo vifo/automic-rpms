@@ -4,7 +4,7 @@
 #
 # chkconfig:    2345 80 20
 # description:  UC4 Operations Manager is an enterprise automation platform.
-#               This script control the Service Manager component.
+#               This init script controls the Service Manager component.
 
 # Source function library.
 . /etc/rc.d/init.d/functions
